@@ -28,7 +28,7 @@ class InferencePipeline:
     @staticmethod
     def get_lora_weight_path(name: str) -> pathlib.Path:
         curr_dir = pathlib.Path(__file__).parent
-        return curr_dir / name, curr_dir / f'{name.replace("pt", "_config.json")}'
+        return curr_dir / name, curr_dir / f'{name.replace(".pt", "_config.json")}'
 
     def load_and_set_lora_ckpt(self, pipe, weight_path, config_path, dtype):
         with open(config_path, "r") as f:
