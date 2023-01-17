@@ -1,0 +1,10 @@
+torch
+torchvision
+peft
+accelerate
+diffusers
+transformers
+tqdm
+ftfy
+Pillow
+bitsandbytes
