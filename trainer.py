@@ -116,7 +116,7 @@ class Trainer:
         if with_prior_preservation:
             command += f""" --with_prior_preservation \
                 --prior_loss_weight={prior_loss_weight} \
-                --class_prompt={class_prompt} \
+                --class_prompt="{class_prompt}" \
                 --class_data_dir={self.output_dir / 'class_data'}
                 """
         if use_lora:

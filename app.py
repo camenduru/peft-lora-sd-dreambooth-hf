@@ -85,7 +85,9 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                 gradient_checkpointing = gr.Checkbox(label="Whether to use gradient checkpointing", value=True)
                 train_text_encoder = gr.Checkbox(label="Train Text Encoder", value=True)
                 with_prior_preservation = gr.Checkbox(label="Prior Preservation", value=True)
-                class_prompt = gr.Textbox(label="Class Prompt", max_lines=1, value="a photo of object")
+                class_prompt = gr.Textbox(
+                    label="Class Prompt", max_lines=1, placeholder='Example: "a photo of object"'
+                )
                 num_class_images = gr.Number(label="Number of class images to use", value=50, precision=0)
                 prior_loss_weight = gr.Number(label="Prior Loss Weight", value=1.0)
                 use_lora = gr.Checkbox(label="Whether to use LoRA", value=True)
