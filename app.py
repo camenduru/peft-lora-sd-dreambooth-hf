@@ -18,7 +18,7 @@ from trainer import Trainer
 from uploader import upload
 
 
-TITLE = "LoRA + Dreambooth"
+TITLE = "# LoRA + Dreambooth Training and Inference Demo 🎨"
 DESCRIPTION = "Demo showcasing parameter-efficient fine-tuning of Stable Dissfusion via Dreambooth leveraging 🤗 PEFT (https://github.com/huggingface/peft)"
 
 ORIGINAL_SPACE_ID = "smangrul/peft-lora-sd-dreambooth"
