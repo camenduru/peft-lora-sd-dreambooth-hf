@@ -251,6 +251,20 @@ def create_inference_demo(pipe: InferencePipeline) -> gr.Blocks:
             outputs=result,
             queue=False,
         )
+        seed.change(
+            fn=pipe.run,
+            inputs=[
+                base_model,
+                lora_weight_name,
+                prompt,
+                negative_prompt,
+                seed,
+                num_steps,
+                guidance_scale,
+            ],
+            outputs=result,
+            queue=False,
+        )
     return demo
 
 
