@@ -12,6 +12,7 @@ import pathlib
 
 import gradio as gr
 import torch
+from typing import List
 
 from inference import InferencePipeline
 from trainer import Trainer
@@ -172,7 +173,7 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
     return demo
 
 
-def find_weight_files() -> list[str]:
+def find_weight_files() -> List[str]:
     curr_dir = pathlib.Path(__file__).parent
     paths = sorted(curr_dir.rglob("*.pt"))
     return [path.relative_to(curr_dir).as_posix() for path in paths]
