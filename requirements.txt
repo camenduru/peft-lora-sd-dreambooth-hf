@@ -1,9 +1,9 @@
 torch
 torchvision
 peft
-accelerate
-diffusers
-transformers
+git+https://github.com/huggingface/accelerate
+git+https://github.com/huggingface/diffusers
+git+https://github.com/huggingface/transformers
 tqdm
 ftfy
 Pillow
