@@ -2,7 +2,7 @@
 """
 Demo showcasing parameter-efficient fine-tuning of Stable Dissfusion via Dreambooth leveraging 🤗 PEFT (https://github.com/huggingface/peft)
 
-The code in this repo is adapted from the following repositories:
+The code in this repo is partly adapted from the following repositories:
 https://huggingface.co/spaces/hysts/LoRA-SD-training
 https://huggingface.co/spaces/multimodalart/dreambooth-training
 """
@@ -22,9 +22,9 @@ from uploader import upload
 TITLE = "# LoRA + Dreambooth Training and Inference Demo 🎨"
 DESCRIPTION = (
     "Demo showcasing parameter-efficient fine-tuning of Stable Dissfusion via Dreambooth leveraging 🤗 PEFT (https://github.com/huggingface/peft). "
-    "The code in this repo is adapted from the following repositories: \n"
-    "https://huggingface.co/spaces/hysts/LoRA-SD-training \n"
-    "https://huggingface.co/spaces/multimodalart/dreambooth-training"
+    "The code in this repo is partly adapted from the following repositories: "
+    "https://huggingface.co/spaces/hysts/LoRA-SD-training and "
+    "https://huggingface.co/spaces/multimodalart/dreambooth-training."
 )
 
 
