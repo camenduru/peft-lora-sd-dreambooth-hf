@@ -86,6 +86,6 @@ class InferencePipeline:
             num_inference_steps=n_steps,
             guidance_scale=guidance_scale,
             generator=generator,
-            negative_prompt=negative_prompt,
+            negative_prompt=negative_prompt if negative_prompt else None,
         )  # type: ignore
         return out.images[0]

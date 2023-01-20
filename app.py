@@ -6,6 +6,7 @@ The code in this repo is partly adapted from the following repositories:
 https://huggingface.co/spaces/hysts/LoRA-SD-training
 https://huggingface.co/spaces/multimodalart/dreambooth-training
 """
+from __future__ import annotations
 
 import os
 import pathlib
@@ -20,12 +21,7 @@ from uploader import upload
 
 
 TITLE = "# LoRA + Dreambooth Training and Inference Demo 🎨"
-DESCRIPTION = (
-    "Demo showcasing parameter-efficient fine-tuning of Stable Dissfusion via Dreambooth leveraging 🤗 PEFT (https://github.com/huggingface/peft). "
-    "The code in this repo is partly adapted from the following repositories: "
-    "https://huggingface.co/spaces/hysts/LoRA-SD-training and "
-    "https://huggingface.co/spaces/multimodalart/dreambooth-training."
-)
+DESCRIPTION = "Demo showcasing parameter-efficient fine-tuning of Stable Dissfusion via Dreambooth leveraging 🤗 PEFT (https://github.com/huggingface/peft)."
 
 
 ORIGINAL_SPACE_ID = "smangrul/peft-lora-sd-dreambooth"
@@ -96,8 +92,8 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                     label="Class Prompt", max_lines=1, placeholder='Example: "a photo of object"'
                 )
                 num_class_images = gr.Number(label="Number of class images to use", value=50, precision=0)
-                prior_loss_weight = gr.Number(label="Prior Loss Weight", value=1.0)
-                use_lora = gr.Checkbox(label="Whether to use LoRA", value=True)
+                prior_loss_weight = gr.Number(label="Prior Loss Weight", value=1.0, precision=1)
+                # use_lora = gr.Checkbox(label="Whether to use LoRA", value=True)
                 lora_r = gr.Number(label="LoRA Rank for unet", value=4, precision=0)
                 lora_alpha = gr.Number(
                     label="LoRA Alpha for unet. scaling factor = lora_r/lora_alpha", value=4, precision=0
@@ -108,7 +104,7 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                     label="LoRA Bias for unet. This enables bias params to be trainable based on the bias type",
                     visible=True,
                 )
-
+                lora_dropout = gr.Number(label="lora dropout", value=0.00)
                 lora_text_encoder_r = gr.Number(label="LoRA Rank for CLIP", value=4, precision=0)
                 lora_text_encoder_alpha = gr.Number(
                     label="LoRA Alpha for CLIP. scaling factor = lora_r/lora_alpha", value=4, precision=0
@@ -119,6 +115,7 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                     label="LoRA Bias for CLIP. This enables bias params to be trainable based on the bias type",
                     visible=True,
                 )
+                lora_text_encoder_dropout = gr.Number(label="lora dropout for CLIP", value=0.00)
                 gradient_accumulation = gr.Number(label="Number of Gradient Accumulation", value=1, precision=0)
                 fp16 = gr.Checkbox(label="FP16", value=True)
                 use_8bit_adam = gr.Checkbox(label="Use 8bit Adam", value=True)
@@ -138,7 +135,7 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                     with gr.Box():
                         gr.Markdown("Message")
                         training_status = gr.Markdown()
-                    output_files = gr.Files(label="Trained Weight Files")
+                    output_files = gr.Files(label="Trained Weight Files and Configs")
 
         run_button.click(fn=pipe.clear)
 
@@ -160,13 +157,14 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                 prior_loss_weight,
                 class_prompt,
                 num_class_images,
-                use_lora,
                 lora_r,
                 lora_alpha,
                 lora_bias,
+                lora_dropout,
                 lora_text_encoder_r,
                 lora_text_encoder_alpha,
                 lora_text_encoder_bias,
+                lora_text_encoder_dropout,
             ],
             outputs=[
                 training_status,

@@ -1,6 +1,6 @@
 ---
 title: Peft Lora Sd Dreambooth
-emoji: 🚀
+emoji: 🎨
 colorFrom: purple
 colorTo: green
 sdk: gradio

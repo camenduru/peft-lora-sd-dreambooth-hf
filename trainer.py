@@ -10,8 +10,6 @@ import gradio as gr
 import PIL.Image
 import torch
 
-os.environ["PYTHONPATH"] = f'lora:{os.getenv("PYTHONPATH", "")}'
-
 
 def pad_image(image: PIL.Image.Image) -> PIL.Image.Image:
     w, h = image.size
@@ -71,13 +69,14 @@ class Trainer:
         prior_loss_weight: float,
         class_prompt: str,
         num_class_images: int,
-        use_lora: bool,
         lora_r: int,
         lora_alpha: int,
         lora_bias: str,
+        lora_dropout: float,
         lora_text_encoder_r: int,
         lora_text_encoder_alpha: int,
         lora_text_encoder_bias: str,
+        lora_text_encoder_dropout: float,
     ) -> tuple[dict, list[pathlib.Path]]:
         if not torch.cuda.is_available():
             raise gr.Error("CUDA is not available.")
@@ -119,18 +118,20 @@ class Trainer:
                 --class_prompt="{class_prompt}" \
                 --class_data_dir={self.output_dir / 'class_data'}
                 """
-        if use_lora:
-            command += f""" --use_lora \
-                --lora_r={lora_r} \
-                --lora_alpha={lora_alpha} \
-                --lora_bias={lora_bias}
-                """
 
-            if train_text_encoder:
-                command += f""" --lora_text_encoder_r={lora_text_encoder_r} \
-                    --lora_text_encoder_alpha={lora_text_encoder_alpha} \
-                    --lora_text_encoder_bias={lora_text_encoder_bias}
-                    """
+        command += f""" --use_lora \
+            --lora_r={lora_r} \
+            --lora_alpha={lora_alpha} \
+            --lora_bias={lora_bias} \
+            --lora_dropout={lora_dropout}
+            """
+
+        if train_text_encoder:
+            command += f""" --lora_text_encoder_r={lora_text_encoder_r} \
+                --lora_text_encoder_alpha={lora_text_encoder_alpha} \
+                --lora_text_encoder_bias={lora_text_encoder_bias} \
+                --lora_text_encoder_dropout={lora_text_encoder_dropout}
+                """
         if fp16:
             command += " --mixed_precision fp16"
         if use_8bit_adam:
@@ -151,4 +152,5 @@ class Trainer:
         else:
             result_message = "Training Failed!"
         weight_paths = sorted(self.output_dir.glob("*.pt"))
-        return gr.update(value=result_message), weight_paths
+        config_paths = sorted(self.output_dir.glob("*.json"))
+        return gr.update(value=result_message), weight_paths + config_paths
