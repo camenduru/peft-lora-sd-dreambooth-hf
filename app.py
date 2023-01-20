@@ -98,24 +98,24 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                 lora_alpha = gr.Number(
                     label="LoRA Alpha for unet. scaling factor = lora_r/lora_alpha", value=4, precision=0
                 )
+                lora_dropout = gr.Number(label="lora dropout", value=0.00)
                 lora_bias = gr.Dropdown(
                     choices=["none", "all", "lora_only"],
                     value="none",
                     label="LoRA Bias for unet. This enables bias params to be trainable based on the bias type",
                     visible=True,
                 )
-                lora_dropout = gr.Number(label="lora dropout", value=0.00)
                 lora_text_encoder_r = gr.Number(label="LoRA Rank for CLIP", value=4, precision=0)
                 lora_text_encoder_alpha = gr.Number(
                     label="LoRA Alpha for CLIP. scaling factor = lora_r/lora_alpha", value=4, precision=0
                 )
+                lora_text_encoder_dropout = gr.Number(label="lora dropout for CLIP", value=0.00)
                 lora_text_encoder_bias = gr.Dropdown(
                     choices=["none", "all", "lora_only"],
                     value="none",
                     label="LoRA Bias for CLIP. This enables bias params to be trainable based on the bias type",
                     visible=True,
                 )
-                lora_text_encoder_dropout = gr.Number(label="lora dropout for CLIP", value=0.00)
                 gradient_accumulation = gr.Number(label="Number of Gradient Accumulation", value=1, precision=0)
                 fp16 = gr.Checkbox(label="FP16", value=True)
                 use_8bit_adam = gr.Checkbox(label="Use 8bit Adam", value=True)
