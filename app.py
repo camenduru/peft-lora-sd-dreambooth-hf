@@ -94,23 +94,30 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                                 - `<concept prompt> style`
                                 - `a photo of <concept prompt> object`
                                 - `a photo of <concept prompt> style`
-                        - Dreambooth for a `Person`:
+                        - Dreambooth for a `Person/Face`:
                             - 15-50 images of the person from different angles, lighting, and expressions. 
                             Have considerable photos with close up faces.
                             - 800-1200 iterations should be good enough.
-                            - Prior preservation is recommended.
-                            - `class_prompt`:
-                                - `person`
+                            - good defaults for hyperparams
+                                - Model - `runwayml/stable-diffusion-v1-5` or `stabilityai/stable-diffusion-2-1-base`
+                                - Use/check Prior preservation.
+                                - Number of class images to use - 200
+                                - Prior Loss Weight - 1
+                                - LoRA Rank for unet - 16
+                                - LoRA Alpha for unet - 20
+                                - lora dropout - 0
+                                - LoRA Bias for unet - `all`
+                                - LoRA Rank for CLIP - 16
+                                - LoRA Alpha for CLIP - 17
+                                - LoRA Bias for CLIP - `all`
+                                - lora dropout for CLIP - 0
+                                - Uncheck `FP16` and `8bit-Adam` (don't use them for faces)
+                            - `class_prompt`: Use the gender related word of the person
                                 - `man`
                                 - `woman`
                                 - `boy`
                                 - `girl`
-                            - `concept_prompt`:
-                                - `<concept prompt> person`
-                                - `<concept prompt> man`
-                                - `<concept prompt> woman`
-                                - `<concept prompt> boy`
-                                - `<concept prompt> girl`
+                            - `concept_prompt`: just the unique, made up word, e.g., `srm`
                             - Choose `all` for `lora_bias` and `text_encode_lora_bias`
                         - Dreambooth for a `Scene`:
                             - 15-50 images of the scene from different angles, lighting, and expressions.
@@ -122,12 +129,6 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                                 - `city`
                                 - `beach`
                                 - `mountain`
-                                - `forest`
-                                - `park`
-                                - `street`
-                                - `building`
-                                - `house`
-                                - `office`
                             - `concept_prompt`:
                                 - `<concept prompt> scene`
                                 - `<concept prompt> landscape`
@@ -174,7 +175,7 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                 use_8bit_adam = gr.Checkbox(label="Use 8bit Adam", value=True)
                 gr.Markdown(
                     """
-                    - It will take about 10-15 minutes to train for 1000 steps with a T4 GPU.
+                    - It will take about 20-30 minutes to train for 1000 steps with a T4 GPU.
                     - You may want to try a small number of steps first, like 1, to see if everything works fine in your environment.
                     - Note that your trained models will be deleted when the second training is started. You can upload your trained model in the "Upload" tab.
                     """
