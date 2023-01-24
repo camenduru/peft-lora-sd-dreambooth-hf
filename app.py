@@ -52,6 +52,8 @@ def show_warning(warning_text: str) -> gr.Blocks:
 
 def update_output_files() -> dict:
     paths = sorted(pathlib.Path("results").glob("*.pt"))
+    config_paths = sorted(pathlib.Path("results").glob("*.json"))
+    paths = paths + config_paths
     paths = [path.as_posix() for path in paths]  # type: ignore
     return gr.update(value=paths or None)
 
@@ -79,6 +81,57 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                     """
                     - Upload images of the style you are planning on training on.
                     - For a concept prompt, use a unique, made up word to avoid collisions.
+                    - Guidelines for getting good results:
+                        - Dreambooth for an `object` or `style`:
+                            - 5-10 images of the object from different angles
+                            - 500-800 iterations should be good enough. 
+                            - Prior preservation is recommended.
+                            - `class_prompt`:
+                                - `a photo of object`
+                                - `style`
+                            - `concept_prompt`:
+                                - `<concept prompt> object`
+                                - `<concept prompt> style`
+                                - `a photo of <concept prompt> object`
+                                - `a photo of <concept prompt> style`
+                        - Dreambooth for a `Person`:
+                            - 15-50 images of the person from different angles, lighting, and expressions. 
+                            Have considerable photos with close up faces.
+                            - 800-1200 iterations should be good enough.
+                            - Prior preservation is recommended.
+                            - `class_prompt`:
+                                - `person`
+                                - `man`
+                                - `woman`
+                                - `boy`
+                                - `girl`
+                            - `concept_prompt`:
+                                - `<concept prompt> person`
+                                - `<concept prompt> man`
+                                - `<concept prompt> woman`
+                                - `<concept prompt> boy`
+                                - `<concept prompt> girl`
+                            - Choose `all` for `lora_bias` and `text_encode_lora_bias`
+                        - Dreambooth for a `Scene`:
+                            - 15-50 images of the scene from different angles, lighting, and expressions.
+                            - 800-1200 iterations should be good enough.
+                            - Prior preservation is recommended.
+                            - `class_prompt`:
+                                - `scene`
+                                - `landscape`
+                                - `city`
+                                - `beach`
+                                - `mountain`
+                                - `forest`
+                                - `park`
+                                - `street`
+                                - `building`
+                                - `house`
+                                - `office`
+                            - `concept_prompt`:
+                                - `<concept prompt> scene`
+                                - `<concept prompt> landscape`
+                        - Experiment with various values for lora dropouts, enabling/disabling fp16 and 8bit-Adam
                     """
                 )
             with gr.Box():
@@ -121,7 +174,7 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                 use_8bit_adam = gr.Checkbox(label="Use 8bit Adam", value=True)
                 gr.Markdown(
                     """
-                    - It will take about 8 minutes to train for 1000 steps with a T4 GPU.
+                    - It will take about 10-15 minutes to train for 1000 steps with a T4 GPU.
                     - You may want to try a small number of steps first, like 1, to see if everything works fine in your environment.
                     - Note that your trained models will be deleted when the second training is started. You can upload your trained model in the "Upload" tab.
                     """
@@ -218,10 +271,7 @@ def create_inference_demo(pipe: InferencePipeline) -> gr.Blocks:
 
                 gr.Markdown(
                     """
-                - Models with names starting with "lora/" are the pretrained models provided in the [original repo](https://github.com/cloneofsimo/lora), and the ones with names starting with "results/" are your trained models.
                 - After training, you can press "Reload Weight List" button to load your trained model names.
-                - The pretrained models for "disney", "illust" and "pop" are trained with the concept prompt "style of sks".
-                - The pretrained model for "kiriko" is trained with the concept prompt "game character bnha". For this model, the text encoder is also trained.
                 """
                 )
             with gr.Column():
