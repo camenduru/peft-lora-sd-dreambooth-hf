@@ -150,7 +150,7 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                 # use_lora = gr.Checkbox(label="Whether to use LoRA", value=True)
                 lora_r = gr.Number(label="LoRA Rank for unet", value=4, precision=0)
                 lora_alpha = gr.Number(
-                    label="LoRA Alpha for unet. scaling factor = lora_r/lora_alpha", value=4, precision=0
+                    label="LoRA Alpha for unet. scaling factor = lora_alpha/lora_r", value=4, precision=0
                 )
                 lora_dropout = gr.Number(label="lora dropout", value=0.00)
                 lora_bias = gr.Dropdown(
@@ -161,7 +161,7 @@ def create_training_demo(trainer: Trainer, pipe: InferencePipeline) -> gr.Blocks
                 )
                 lora_text_encoder_r = gr.Number(label="LoRA Rank for CLIP", value=4, precision=0)
                 lora_text_encoder_alpha = gr.Number(
-                    label="LoRA Alpha for CLIP. scaling factor = lora_r/lora_alpha", value=4, precision=0
+                    label="LoRA Alpha for CLIP. scaling factor = lora_alpha/lora_r", value=4, precision=0
                 )
                 lora_text_encoder_dropout = gr.Number(label="lora dropout for CLIP", value=0.00)
                 lora_text_encoder_bias = gr.Dropdown(
