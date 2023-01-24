@@ -273,6 +273,10 @@ def create_inference_demo(pipe: InferencePipeline) -> gr.Blocks:
                 gr.Markdown(
                     """
                 - After training, you can press "Reload Weight List" button to load your trained model names.
+                - Few repos to refer for ideas:
+                    - https://huggingface.co/smangrul/smangrul
+                    - https://huggingface.co/smangrul/painting-in-the-style-of-smangrul
+                    - https://huggingface.co/smangrul/erenyeager
                 """
                 )
             with gr.Column():
