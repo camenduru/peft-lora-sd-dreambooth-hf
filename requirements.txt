@@ -9,4 +9,4 @@ tqdm
 ftfy
 Pillow
 bitsandbytes
-gradio
+gradio==3.24.1
