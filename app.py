@@ -368,4 +368,5 @@ with gr.Blocks(css="style.css") as demo:
         with gr.TabItem("Upload"):
             create_upload_demo()
 
-demo.queue(default_enabled=True).launch(share=True)
+demo.queue().launch(debug=True, share=True)
+
